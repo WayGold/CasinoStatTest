@@ -1,4 +1,5 @@
 import random
+import time
 
 
 class Dice:
@@ -6,4 +7,5 @@ class Dice:
         self.d_num = d_num
 
     def rand_roll(self):
-        pass
+        random.seed(time.time())
+        return random.randint(1, self.d_num)
