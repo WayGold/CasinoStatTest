@@ -1,4 +1,4 @@
-import dice
+from dice import *
 
 
 class Player:
@@ -16,5 +16,5 @@ class Player:
     def roll_dice(self):
         return self.dice.rand_roll()
 
-    def set_dice(self, i_dice):
+    def set_dice(self, i_dice: Dice):
         self.dice = i_dice
