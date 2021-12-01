@@ -11,13 +11,21 @@ import time
 import logging
 
 
-def simulate_once(players, dices, field_length, bidding_simulation_round):
+def simulate_game(players, dices, field_length, bidding_simulation_round):
+    simulate_bidding(players, bidding_simulation_round)
+    sort_players_on_bid_amount(players)
+
+    for i, player in enumerate(players):
+        logging.info('Players ' + str(i) + ' bids:' + str(player.bid_amount))
+
+
+def simulate_bidding(players, bidding_simulation_round):
     # Simulate Pre-Game Bidding, Random a Player to Bid higher than another Random Player's Bidding,
     # Simulate n = bidding_simulation_round Rounds
     for i in range(bidding_simulation_round):
         # Find Someone that is not the highest bidder
         while True:
-            bidding_person = players[random.randint(1, len(players))]
+            bidding_person = players[random.randint(1, len(players) - 1)]
             if not is_largest_bidding_player(players, bidding_person):
                 break
         higher_bidder = find_rand_player_with_more_bid(players, bidding_person)
@@ -25,9 +33,13 @@ def simulate_once(players, dices, field_length, bidding_simulation_round):
         bidding_person.increase_bid(higher_bidder.bid_amount - bidding_person.bid_amount + 1)
 
 
+def sort_players_on_bid_amount(players: List[Player]):
+    players.sort(key=lambda x: x.bid_amount)
+
+
 def is_largest_bidding_player(players: list, i_player: Player):
     for player in players:
-        if i_player.bid_amount <= player.bid_amount:
+        if i_player.bid_amount < player.bid_amount:
             return False
     return True
 
@@ -35,9 +47,13 @@ def is_largest_bidding_player(players: list, i_player: Player):
 def find_rand_player_with_more_bid(players: List[Player], i_player: Player):
     while True:
         logging.info('Finding Random Player with a bigger bid...')
-        random_player = players[random.randint(1, len(players))]
+        random_player = players[random.randint(1, len(players) - 1)]
+        logging.info('Found Random Player with bid: ' + str(random_player.bid_amount))
+        logging.info('Current Player has bid: ' + str(i_player.bid_amount))
         if random_player.bid_amount > i_player.bid_amount:
             return random_player
+        else:
+            logging.info('No match...')
 
 
 def main():
@@ -55,9 +71,9 @@ def main():
     # Populate Dices/Horses and Players
     for i in range(5):
         dices.append(Dice(largest_dice_num - i * dice_decrement))
-        players.append(Player('Player ' + str(i), i))
+        players.append(Player('Player ' + str(i), i + 1))
 
-    simulate_once(players, dices, horse_field_len, bidding_simulation_round)
+    simulate_game(players, dices, horse_field_len, bidding_simulation_round)
 
 
 if __name__ == '__main__':
