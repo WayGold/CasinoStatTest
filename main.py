@@ -26,6 +26,8 @@ def simulate_game(players, dices, field_length, bidding_simulation_round):
     for i, player in enumerate(players):
         logging.info('Players ' + str(i) + ' bids:' + str(player.bid_amount))
 
+    #TODO: SET/DISTRIBUTE DICE/HORSE TO EACH PLAYER BASED ON THEIR ORDER IN LIST AND START GAME
+
 
 def simulate_bidding(players, bidding_simulation_round):
     """
