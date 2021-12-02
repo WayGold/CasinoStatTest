@@ -11,7 +11,7 @@ import time
 import logging
 
 
-def simulate_game(players, dices, field_length, bidding_simulation_round):
+def simulate_game(players, dices:List[Dice], field_length, bidding_simulation_round):
     """
     Simulate One Single Game
     :param players:                     the list of players from main driver
@@ -24,9 +24,13 @@ def simulate_game(players, dices, field_length, bidding_simulation_round):
     sort_players_on_bid_amount(players)
 
     for i, player in enumerate(players):
-        logging.info('Players ' + str(i) + ' bids:' + str(player.bid_amount))
+        logging.info('Players ' + player.name + ' bids:' + str(player.bid_amount))
+        player.set_dice(dices[i])
 
-    #TODO: SET/DISTRIBUTE DICE/HORSE TO EACH PLAYER BASED ON THEIR ORDER IN LIST AND START GAME
+    for player in players:
+        logging.info('Players ' + player.name + ' with Dice:' + str(player.dice.d_num))
+
+
 
 
 def simulate_bidding(players, bidding_simulation_round):
@@ -54,7 +58,7 @@ def sort_players_on_bid_amount(players: List[Player]):
     :param players:     the list of players from main driver
     :return:            Sort the input list
     """
-    players.sort(key=lambda x: x.bid_amount)
+    players.sort(key=lambda x: x.bid_amount, reverse=True)
 
 
 def is_largest_bidding_player(players: list, i_player: Player):
