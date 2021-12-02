@@ -10,7 +10,7 @@ import time
 import logging
 
 
-def simulate_game(players, dices, field_length, bidding_simulation_round):
+def simulate_game(players, dices: List[Dice], field_length, bidding_simulation_round):
     """
     Simulate One Single Game
     :param players:                     the list of players from main driver
@@ -23,9 +23,39 @@ def simulate_game(players, dices, field_length, bidding_simulation_round):
     sort_players_on_bid_amount(players)
 
     for i, player in enumerate(players):
-        logging.info('Players ' + str(i) + ' bids:' + str(player.bid_amount))
+        logging.debug('Players ' + player.name + ' bids:' + str(player.bid_amount))
+        player.set_dice(dices[i])
 
-    #TODO: SET/DISTRIBUTE DICE/HORSE TO EACH PLAYER BASED ON THEIR ORDER IN LIST AND START GAME
+    for player in players:
+        logging.info('Players ' + player.name + ' with Dice:' + str(player.dice.d_num))
+
+    # Start Game - Roll Dices
+    while True:
+        break_outer = False
+        # Keep Rolling Dices for each player
+        for player in players:
+            player.roll_dice()
+            # Check for win
+            if player.current_distance_traveled >= field_length:
+                break_outer = True
+                break
+        if break_outer:
+            break
+
+    log_summary_of_game(players)
+    log_winner_of_game(players)
+
+
+def log_summary_of_game(players: List[Player]):
+    for player in players:
+        logging.debug('Players ' + player.name + ' with Distance Traveled:' + str(player.current_distance_traveled))
+
+
+def log_winner_of_game(players: List[Player]):
+    for player in players:
+        if player.current_distance_traveled >= 50:
+            logging.info('Winner is ' + player.name + ' with Distance Traveled:' +
+                          str(player.current_distance_traveled))
 
 
 def simulate_bidding(players, bidding_simulation_round):
@@ -53,7 +83,7 @@ def sort_players_on_bid_amount(players: List[Player]):
     :param players:     the list of players from main driver
     :return:            Sort the input list
     """
-    players.sort(key=lambda x: x.bid_amount)
+    players.sort(key=lambda x: x.bid_amount, reverse=True)
 
 
 def is_largest_bidding_player(players: list, i_player: Player):
@@ -77,14 +107,14 @@ def find_rand_player_with_more_bid(players: List[Player], i_player: Player):
     :return:            return the randomized player with higher bid
     """
     while True:
-        logging.info('Finding Random Player with a bigger bid...')
+        logging.debug('Finding Random Player with a bigger bid...')
         random_player = players[random.randint(1, len(players) - 1)]
-        logging.info('Found Random Player with bid: ' + str(random_player.bid_amount))
-        logging.info('Current Player has bid: ' + str(i_player.bid_amount))
+        logging.debug('Found Random Player with bid: ' + str(random_player.bid_amount))
+        logging.debug('Current Player has bid: ' + str(i_player.bid_amount))
         if random_player.bid_amount > i_player.bid_amount:
             return random_player
         else:
-            logging.info('No match...')
+            logging.debug('No match...')
 
 
 def main():
@@ -108,7 +138,11 @@ def main():
         dices.append(Dice(largest_dice_num - i * dice_decrement))
         players.append(Player('Player ' + str(i), i + 1))
 
-    simulate_game(players, dices, horse_field_len, bidding_simulation_round)
+    while True:
+        i = input("Enter to Simulate (or Enter Something Else to quit): \n")
+        if i != "":
+            break
+        simulate_game(players, dices, horse_field_len, bidding_simulation_round)
 
 
 if __name__ == '__main__':

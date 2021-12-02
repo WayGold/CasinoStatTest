@@ -6,6 +6,7 @@ class Player:
         self.bid_amount = i_bid_amount
         self.name = i_name
         self.dice = None
+        self.current_distance_traveled = 0
 
     def get_bid_amount(self):
         return self.bid_amount
@@ -14,7 +15,9 @@ class Player:
         self.bid_amount += value
 
     def roll_dice(self):
-        return self.dice.rand_roll()
+        result = self.dice.rand_roll()
+        self.current_distance_traveled += result
+        return result
 
     def set_dice(self, i_dice: Dice):
         self.dice = i_dice
