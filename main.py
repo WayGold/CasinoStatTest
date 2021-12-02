@@ -139,7 +139,11 @@ def main():
         dices.append(Dice(largest_dice_num - i * dice_decrement))
         players.append(Player('Player ' + str(i), i + 1))
 
-    simulate_game(players, dices, horse_field_len, bidding_simulation_round)
+    while True:
+        i = input("Enter to Simulate (or Enter Something Else to quit): \n")
+        if i != "":
+            break
+        simulate_game(players, dices, horse_field_len, bidding_simulation_round)
 
 
 if __name__ == '__main__':
