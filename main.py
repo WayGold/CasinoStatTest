@@ -11,7 +11,7 @@ import time
 import logging
 
 
-def simulate_game(players, dices:List[Dice], field_length, bidding_simulation_round):
+def simulate_game(players, dices: List[Dice], field_length, bidding_simulation_round):
     """
     Simulate One Single Game
     :param players:                     the list of players from main driver
@@ -24,7 +24,7 @@ def simulate_game(players, dices:List[Dice], field_length, bidding_simulation_ro
     sort_players_on_bid_amount(players)
 
     for i, player in enumerate(players):
-        logging.info('Players ' + player.name + ' bids:' + str(player.bid_amount))
+        logging.debug('Players ' + player.name + ' bids:' + str(player.bid_amount))
         player.set_dice(dices[i])
 
     for player in players:
@@ -32,16 +32,31 @@ def simulate_game(players, dices:List[Dice], field_length, bidding_simulation_ro
 
     # Start Game - Roll Dices
     while True:
-        break_outer = false
+        break_outer = False
+        # Keep Rolling Dices for each player
         for player in players:
             player.roll_dice()
+            # Check for win
             if player.current_distance_traveled >= field_length:
-                break_outer = true
+                break_outer = True
                 break
         if break_outer:
             break
 
+    log_summary_of_game(players)
+    log_winner_of_game(players)
 
+
+def log_summary_of_game(players: List[Player]):
+    for player in players:
+        logging.debug('Players ' + player.name + ' with Distance Traveled:' + str(player.current_distance_traveled))
+
+
+def log_winner_of_game(players: List[Player]):
+    for player in players:
+        if player.current_distance_traveled >= 50:
+            logging.info('Winner is ' + player.name + ' with Distance Traveled:' +
+                          str(player.current_distance_traveled))
 
 
 def simulate_bidding(players, bidding_simulation_round):
@@ -93,14 +108,14 @@ def find_rand_player_with_more_bid(players: List[Player], i_player: Player):
     :return:            return the randomized player with higher bid
     """
     while True:
-        logging.info('Finding Random Player with a bigger bid...')
+        logging.debug('Finding Random Player with a bigger bid...')
         random_player = players[random.randint(1, len(players) - 1)]
-        logging.info('Found Random Player with bid: ' + str(random_player.bid_amount))
-        logging.info('Current Player has bid: ' + str(i_player.bid_amount))
+        logging.debug('Found Random Player with bid: ' + str(random_player.bid_amount))
+        logging.debug('Current Player has bid: ' + str(i_player.bid_amount))
         if random_player.bid_amount > i_player.bid_amount:
             return random_player
         else:
-            logging.info('No match...')
+            logging.debug('No match...')
 
 
 def main():
