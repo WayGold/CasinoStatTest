@@ -30,6 +30,17 @@ def simulate_game(players, dices:List[Dice], field_length, bidding_simulation_ro
     for player in players:
         logging.info('Players ' + player.name + ' with Dice:' + str(player.dice.d_num))
 
+    # Start Game - Roll Dices
+    while True:
+        break_outer = false
+        for player in players:
+            player.roll_dice()
+            if player.current_distance_traveled >= field_length:
+                break_outer = true
+                break
+        if break_outer:
+            break
+
 
 
 
