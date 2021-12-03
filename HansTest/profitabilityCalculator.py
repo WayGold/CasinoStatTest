@@ -20,8 +20,8 @@ total_pot = sum(bids)
 
 
 print()
-print("Reward Multiplier | Expected Profit")
-print("------------------+----------------")
+print("Reward Multiplier | Expected Profit | Profit as % of Pot")
+print("------------------+-----------------+-------------------")
 for mult in possible_reward_multipliers:
     expected_loss_components = [0 for i in range(5)]
     for i in range(5):
@@ -29,4 +29,4 @@ for mult in possible_reward_multipliers:
     total_expected_loss = sum(expected_loss_components)
     net = total_pot - total_expected_loss
 
-    print("{:^18.3F}|{:>16.2F}".format(mult, net))
+    print(" {:^16.3F} | {:>15.2F} | {:>17.2%} ".format(mult, net, net/total_pot))
