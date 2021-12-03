@@ -65,6 +65,7 @@ def main():
     print("4th bidder won       {:> 6.1%}".format(num_wins[3]/NUM_ROUNDS))
     print("Lowest bidder won    {:> 6.1%}".format(num_wins[4]/NUM_ROUNDS))
 
+    return num_wins
 
 
 if __name__ == '__main__':
