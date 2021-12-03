@@ -49,12 +49,20 @@ def game() -> int:
 
 
 def main():
+    NUM_ROUNDS = 100000
+
     num_wins = [0 for i in range(5)]
-    for i in range(100000):
+    for i in range(NUM_ROUNDS):
         winner = game()
         num_wins[winner] += 1
-    print(num_wins)
 
+    print("Results: {}\n".format(num_wins))
+
+    print("Highest bidder won   {:> 6.1%}".format(num_wins[0]/NUM_ROUNDS))
+    print("2nd bidder won       {:> 6.1%}".format(num_wins[1]/NUM_ROUNDS))
+    print("3rd bidder won       {:> 6.1%}".format(num_wins[2]/NUM_ROUNDS))
+    print("4th bidder won       {:> 6.1%}".format(num_wins[3]/NUM_ROUNDS))
+    print("Lowest bidder won    {:> 6.1%}".format(num_wins[4]/NUM_ROUNDS))
 
 
 if __name__ == '__main__':
