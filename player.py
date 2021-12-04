@@ -7,6 +7,7 @@ class Player:
         self.name = i_name
         self.dice = None
         self.current_distance_traveled = 0
+        self.bid_rank = 0
 
     def get_bid_amount(self):
         return self.bid_amount
