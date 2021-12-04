@@ -35,6 +35,7 @@ def simulate_game(players, dices: List[Dice], field_length, bidding_simulation_r
     # Start Game - Roll Dices
     while True:
         break_outer = False
+        players.reverse()
         # Keep Rolling Dices for each player
         for player in players:
             player.roll_dice()
@@ -153,7 +154,7 @@ def main():
 
     start_budget = 500
 
-    horse_field_len = 100
+    horse_field_len = 50
     dice_base = 20
     bidding_simulation_round = 10
     total_simulation = 100000
